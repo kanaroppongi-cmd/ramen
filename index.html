@@ -100,8 +100,8 @@
   .nameKanji { font-size: 30px; font-weight: 700; letter-spacing: 3px; color: #2C2C2A;
     font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho', serif; }
   .nameMeta { font-size: 12px; color: #9A988F; margin-top: 10px; }
-  .nameText.hot .nameKana { color: #C5402B; }
-  .nameText.hot .nameKanji { color: #C5402B; }
+  .nameKana .hotSei, .nameKanji .hotSei { color: #C5402B; }
+  .nameKana .hotMei, .nameKanji .hotMei { color: #2B6CB0; }
   .seal { width: 76px; height: 76px; flex-shrink: 0; border-radius: 50%;
     border: 2.5px solid #C5402B; color: #C5402B;
     display: flex; align-items: center; justify-content: center;
@@ -516,6 +516,7 @@ const SURNAMES = [
 
 // この配列に入れた苗字が出たら、名前を赤文字で表示する（何個でも追加可）
 const HIGHLIGHT = ["中井","近藤"];
+const HIGHLIGHT_MEI = ["亮輔","敬"];
 
 // 下の名前：性別×年代でそれっぽいものを用意（[漢字, よみ]）
 const GIVEN = {
@@ -554,13 +555,14 @@ function generateName(){
   const sealLen = Math.min(4, [...sur.k].length);
   const ageLabel = document.querySelector("#nameAge option:checked").textContent;
   const genderLabel = nameGender === "male" ? "男性" : "女性";
-  const hot = HIGHLIGHT.includes(sur.k) ? " hot" : "";
+  const seiCls = HIGHLIGHT_SEI.includes(sur.k) ? " hotSei" : "";
+  const meiCls = HIGHLIGHT_MEI.includes(gk)    ? " hotMei" : "";
 
   document.getElementById("nameResult").innerHTML = `
     <div class="nameDoc">
-      <div class="nameText rise${hot}">
-        <div class="nameKana">${sur.r}　${gr}</div>
-        <div class="nameKanji">${sur.k} ${gk}</div>
+      <div class="nameText rise">
+        <div class="nameKana"><span class="${seiCls.trim()}">${sur.r}</span>　<span class="${meiCls.trim()}">${gr}</span></div>
+        <div class="nameKanji"><span class="${seiCls.trim()}">${sur.k}</span> <span class="${meiCls.trim()}">${gk}</span></div>
         <div class="nameMeta">${genderLabel}・${ageLabel}</div>
       </div>
       <div class="seal stamp len${sealLen}">${sur.k}</div>
