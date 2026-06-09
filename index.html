@@ -100,6 +100,8 @@
   .nameKanji { font-size: 30px; font-weight: 700; letter-spacing: 3px; color: #2C2C2A;
     font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'YuMincho', serif; }
   .nameMeta { font-size: 12px; color: #9A988F; margin-top: 10px; }
+  .nameText.hot .nameKana { color: #C5402B; }
+  .nameText.hot .nameKanji { color: #C5402B; }
   .seal { width: 76px; height: 76px; flex-shrink: 0; border-radius: 50%;
     border: 2.5px solid #C5402B; color: #C5402B;
     display: flex; align-items: center; justify-content: center;
@@ -508,8 +510,12 @@ const SURNAMES = [
   {k:"清水",r:"しみず"},{k:"山崎",r:"やまざき"},{k:"森",r:"もり"},
   {k:"池田",r:"いけだ"},{k:"橋本",r:"はしもと"},{k:"阿部",r:"あべ"},
   {k:"石川",r:"いしかわ"},{k:"山下",r:"やました"},{k:"中島",r:"なかじま"},
-  {k:"石井",r:"いしい"},{k:"小川",r:"おがわ"}
+  {k:"石井",r:"いしい"},{k:"小川",r:"おがわ"},
+  {k:"中井",r:"なかい",w:6},{k:"近藤",r:"こんどう",w:6}
 ];
+
+// この配列に入れた苗字が出たら、名前を赤文字で表示する（何個でも追加可）
+const HIGHLIGHT = ["中井","近藤"];
 
 // 下の名前：性別×年代でそれっぽいものを用意（[漢字, よみ]）
 const GIVEN = {
@@ -548,10 +554,11 @@ function generateName(){
   const sealLen = Math.min(4, [...sur.k].length);
   const ageLabel = document.querySelector("#nameAge option:checked").textContent;
   const genderLabel = nameGender === "male" ? "男性" : "女性";
+  const hot = HIGHLIGHT.includes(sur.k) ? " hot" : "";
 
   document.getElementById("nameResult").innerHTML = `
     <div class="nameDoc">
-      <div class="nameText rise">
+      <div class="nameText rise${hot}">
         <div class="nameKana">${sur.r}　${gr}</div>
         <div class="nameKanji">${sur.k} ${gk}</div>
         <div class="nameMeta">${genderLabel}・${ageLabel}</div>
